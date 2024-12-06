@@ -1,9 +1,7 @@
-package Day1
-
 import java.io.File
 import kotlin.math.abs
 
-const val fileName = "./src/main/kotlin/Day1/input.txt"
+const val fileName = "./src/main/resources/day1.txt"
 const val delimiter = "   "
 
 fun main(args: Array<String>) {
