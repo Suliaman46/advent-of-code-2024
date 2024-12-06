@@ -4,13 +4,14 @@ fun main(args: Array<String>) {
     val fileName = "./src/main/resources/day2.txt"
 
     partOne(fileName)
+    partTwo(fileName)
 }
 
 private fun partOne(fileName: String) {
     val delimiter = " "
     var numOfSafeReports = 0
 
-    readFile (fileName){ lines ->
+    readFile(fileName) { lines ->
         for (line in lines) {
             val report = line.split(delimiter).map { it.toInt() }
             if (isValid(report)) {
@@ -21,6 +22,41 @@ private fun partOne(fileName: String) {
 
     println("Total Part#1 : $numOfSafeReports")
 
+}
+
+private fun partTwo(fileName: String) {
+    val delimiter = " "
+    var numOfSafeReports = 0
+
+    readFile(fileName) { lines ->
+        for (line in lines) {
+            val report = line.split(delimiter).map { it.toInt() }
+            if (isValid(report)) {
+                numOfSafeReports++
+            } else {
+                numOfSafeReports += dropElmAndCheckIfValid(report)
+            }
+        }
+    }
+
+    println("Total Part#2 : $numOfSafeReports")
+}
+
+fun dropElmAndCheckIfValid(report: List<Int>): Int {
+    for (idx in report.indices) {
+        if (dropElmAndCheckIfValid(report, idx)) {
+            return 1
+        }
+    }
+
+    return 0
+}
+
+fun dropElmAndCheckIfValid(report: List<Int>, idx: Int): Boolean {
+    val temp = report.toMutableList()
+    temp.removeAt(idx)
+
+    return isValid(temp)
 }
 
 
