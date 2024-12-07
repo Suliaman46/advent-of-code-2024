@@ -11,7 +11,7 @@ private fun partOne(fileName: String) {
     val delimiter = " "
     var numOfSafeReports = 0
 
-    readFile(fileName) { lines ->
+    useFileLines(fileName) { lines ->
         for (line in lines) {
             val report = line.split(delimiter).map { it.toInt() }
             if (isValid(report)) {
@@ -28,7 +28,7 @@ private fun partTwo(fileName: String) {
     val delimiter = " "
     var numOfSafeReports = 0
 
-    readFile(fileName) { lines ->
+    useFileLines(fileName) { lines ->
         for (line in lines) {
             val report = line.split(delimiter).map { it.toInt() }
             if (isValid(report)) {
