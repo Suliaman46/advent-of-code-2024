@@ -1,14 +1,14 @@
 import kotlin.math.abs
 
-fun main(args: Array<String>) {
-    val fileName = "./src/main/resources/day2.txt"
+private const val fileName = "./src/main/resources/day2.txt"
+private const val delimiter = " "
 
-    partOne(fileName)
-    partTwo(fileName)
+fun main() {
+    partOne()
+    partTwo()
 }
 
-private fun partOne(fileName: String) {
-    val delimiter = " "
+private fun partOne() {
     var numOfSafeReports = 0
 
     useFileLines(fileName) { lines ->
@@ -24,8 +24,7 @@ private fun partOne(fileName: String) {
 
 }
 
-private fun partTwo(fileName: String) {
-    val delimiter = " "
+private fun partTwo() {
     var numOfSafeReports = 0
 
     useFileLines(fileName) { lines ->

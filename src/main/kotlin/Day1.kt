@@ -1,11 +1,10 @@
 import java.io.File
 import kotlin.math.abs
 
-const val fileName = "./src/main/resources/day1.txt"
-const val delimiter = "   "
+private const val fileName = "./src/main/resources/day1.txt"
+private const val delimiter = "   "
 
-fun main(args: Array<String>) {
-
+fun main() {
     partOne()
     partTwo()
 }

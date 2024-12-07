@@ -1,15 +1,14 @@
 import java.lang.IllegalStateException
 
-private const val mulPattern =  "mul\\((\\d+),(\\d+)\\)"
+private const val mulPattern = "mul\\((\\d+),(\\d+)\\)"
+private const val fileName = "./src/main/resources/day3.txt"
 
-fun main(args: Array<String>) {
-    val fileName = "./src/main/resources/day3.txt"
-
-    partOne(fileName)
-    partTwo(fileName)
+fun main() {
+    partOne()
+    partTwo()
 }
 
-private fun partOne(fileName: String) {
+private fun partOne() {
 
     val regex = Regex(mulPattern)
 
@@ -26,7 +25,7 @@ private fun partOne(fileName: String) {
     }
 }
 
-private fun partTwo(fileName: String) {
+private fun partTwo() {
 
     val mulRegex = Regex(mulPattern)
     val enablerRegex = Regex("do\\(\\)")
