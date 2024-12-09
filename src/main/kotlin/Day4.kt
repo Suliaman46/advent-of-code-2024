@@ -1,5 +1,5 @@
 private const val fileName = "./src/main/resources/Day4.txt"
-
+private val MMSS = listOf('M', 'M', 'S', 'S')
 fun main() {
     partOne()
     partTwo()
@@ -15,7 +15,7 @@ private enum class Direction {
 
 private fun partOne() {
     useFileLines(fileName) { lines ->
-        val (puzzle, xLocations) = readMap(lines)
+        val (puzzle, xLocations) = readMap(lines, 'X')
         var total = 0
 
         for (xLoc in xLocations) {
@@ -36,7 +36,7 @@ private fun partOne() {
 
 }
 
-private fun readMap(lines: Iterator<String>): Pair<List<CharArray>, List<Coordinate>> {
+private fun readMap(lines: Iterator<String>, char: Char): Pair<List<CharArray>, List<Coordinate>> {
     val map = mutableListOf<CharArray>()
     val xLocations = mutableListOf<Coordinate>()
 
@@ -44,7 +44,7 @@ private fun readMap(lines: Iterator<String>): Pair<List<CharArray>, List<Coordin
         val arr = CharArray(line.length)
         for (j in line.indices) {
             arr[j] = line[j]
-            if (line[j] == 'X') {
+            if (line[j] == char) {
                 xLocations.add(Coordinate(i, j))
             }
         }
@@ -164,8 +164,59 @@ private fun isOutOfBound(x: Int, y: Int, dim: Dimension): Boolean {
 }
 
 private fun partTwo() {
+    useFileLines(fileName) { lines ->
+        val (puzzle, aLocations) = readMap(lines, 'A')
+        var total = 0
+
+        val seenAs = mutableMapOf<Coordinate, Int>()
+
+        for (aLoc in aLocations) {
+            val neighbours = diagonalNeighbours(aLoc, Dimension(puzzle.size, puzzle[0].size))
+
+            if (neighbours.size == 4) {
+                if (isXMas(neighbours, puzzle)) {
+                    total++
+                    seenAs[aLoc] = 1
+                }
+
+            }
+        }
+        println("Total Part#2 : $total")
+    }
 
 }
+
+private fun isXMas(neighbours: List<Coordinate>, puzzle: List<CharArray>): Boolean {
+    val diagonalChars = neighbours
+        .map { puzzle[it.x][it.y] }
+        .sorted()
+
+
+    val first = neighbours[0]
+    val opp = neighbours.filter { (it.x - first.x != 0) && (it.y - first.y != 0) }[0]
+
+    val oppAreNotTheSame = puzzle[first.x][first.y] != puzzle[opp.x][opp.y]
+
+    return oppAreNotTheSame && (diagonalChars == MMSS)
+}
+
+private fun diagonalNeighbours(coordinate: Coordinate, dim: Dimension): List<Coordinate> {
+    val neighbours = mutableListOf<Coordinate>()
+
+    val addends = listOf(-1, 1)
+
+    for (xAddend in addends) {
+        for (yAddend in addends) {
+            if (isOutOfBound(coordinate.x + xAddend, coordinate.y + yAddend, dim)) {
+                continue
+            }
+            neighbours.add(Coordinate(coordinate.x + xAddend, coordinate.y + yAddend))
+        }
+    }
+
+    return neighbours
+}
+
 
 
 
