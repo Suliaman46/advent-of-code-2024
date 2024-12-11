@@ -68,4 +68,35 @@ private fun getDisallowedNums(aft: Int, rules: List<Order>): List<Int> {
 
 private fun partTwo() {
 
+    var total = 0
+
+    useFileLines(fileName) { lines ->
+        val (rules, updatePageNums) = parse(lines)
+        val illegalUpdates = getIllegalUpdates(updatePageNums, rules)
+
+        val res = illegalUpdates.map {
+            it.sortedWith() { a, b ->
+                val acsd = rules.filter { it.before == a && it.after == b }.getOrNull(0)
+                if (acsd != null) {
+                    return@sortedWith -1
+                }
+                val desc = rules.filter { it.before == b && it.after == a }.getOrNull(0)
+                if (desc != null) {
+                    return@sortedWith 1
+                }
+                0
+            }
+        }
+
+        total = res.fold(0) { acc, next -> acc + next[next.size / 2] }
+    }
+
+    println("Total Part#2: $total")
+}
+
+
+private fun getIllegalUpdates(updates: List<List<Int>>, rules: List<Order>): List<List<Int>> {
+    return updates.map {
+        Pair(it, getMiddleForCorrectlyOrdered(it, rules))
+    }.filter { it.second == 0 }.map { it.first }
 }
